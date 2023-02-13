@@ -14,7 +14,10 @@ const galleryRef = document.querySelector(".gallery");
 galleryRef.insertAdjacentHTML("afterbegin", galleryItemsRef);
 
 const instance = basicLightbox.create(
-  `<img class="modal-img" src ="" alt="" width="800" height="600">`
+  `<img class="modal-img" src ="" alt="" width="800" height="600">`, {
+        onShow: () =>  document.addEventListener("keydown", onEscModalClose),
+        onClose: () => document.removeEventListener("keydown", onEscModalClose),
+    }
 );
 
 const onImageClick = (event) => {
@@ -26,12 +29,10 @@ const onImageClick = (event) => {
   const bigImage = document.querySelector(".modal-img");
   bigImage.alt = event.target.alt;
   bigImage.src = event.target.dataset.source;
-  window.addEventListener("keydown", onEscModalClose);
 };
 
 const onEscModalClose = (evt) => {
   if (evt.code === "Escape") {
-    window.removeEventListener("keydown", onEscModalClose);
     instance.close();
   }
 };
